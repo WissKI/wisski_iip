@@ -3,11 +3,12 @@
 function wisski_iip_menu() {
   $items = array();
   
-  $items['node/%/zoom'] = array(
+  $items['node/%node/zoom'] = array(
     'title' => t('iip'),
     'page callback' => 'wisski_iip_window',
     'page arguments' => array(),
-    'access arguments' => array('wisski_iip access view'),
+    'access arguments' => array(1, 'wisski_iip access view'),
+    'access callback' => 'wisski_loader',
     'type' => MENU_LOCAL_TASK,
   );
   
