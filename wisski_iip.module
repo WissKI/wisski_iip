@@ -1,0 +1,62 @@
+<?php
+
+function wisski_iip_menu() {
+  $items = array();
+  
+  $items['node/%/zoom'] = array(
+    'title' => t('iip'),
+    'page callback' => 'wisski_iip_window',
+    'page arguments' => array(),
+    'access arguments' => array('wisski_iip access view'),
+    'type' => MENU_LOCAL_TASK,
+  );
+  
+  return $items;
+}
+
+function wisski_iip_perm() {
+  return array('wisski_iip access view');
+}
+
+function wisski_iip_window() {
+  
+  $imagepath = rawurldecode($_GET['path']);
+  $returnpath = rawurldecode($_GET['returnpath']);
+  
+  if(empty($imagepath)) {
+    $node = node_load(arg(1));
+    $one_img_str = wisski_pathbuilder_getImages($node->title, 1);
+    preg_match("/a href=.*?zoom\?path=(.*\.tif)/", $one_img_str, $imagepath);
+    $imagepath = $imagepath[1];
+  }
+    
+  global $base_path;  
+  $script = '<script type="text/javascript">
+    $(document).ready(function() {
+    var server = "/fcgi-bin/iipsrv.fcgi";
+    var images = ["' . $imagepath . '"];
+    var credit = \'&copy; <a href="http://www.gnm.de/">Germanisches Nationalmuseum</a>\';
+    var iipmooviewer = new IIPMooViewer( "viewer", {
+      image: images,
+      server: server,
+      credit: credit,
+      prefix: \'' . $base_path . drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/images/\',
+      scale: 20.0,
+      showNavWindow: true,
+      showNavButtons: true,
+      winResize: true,
+      protocol: \'iip\',
+    });
+    });</script>';
+  
+  drupal_add_css(drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/css/iip.css');
+  drupal_add_css(drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/css/ie.css');
+//  drupal_add_js(drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/src/mootools-core-1.4.5-full-nocompat.js');
+//  drupal_add_js(drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/src/mootools-more-1.4.0.1.js');
+//  drupal_add_js(drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/src/iipmooviewer-2.0.js');
+  drupal_add_js(drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/javascript/mootools-core-1.4.5-full-nocompat-yc.js');
+  drupal_add_js(drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/javascript/mootools-more-1.4.0.1-compressed.js');
+  drupal_add_js(drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/javascript/iipmooviewer-2.0-compressed.js');
+
+  return $script . '<div id="viewer" style="position: relative; width=640px; height:800px"></div>';
+}

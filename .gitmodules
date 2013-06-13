@@ -1,0 +1,3 @@
+[submodule "iipmooviewer"]
+	path = iipmooviewer
+	url = git@github.com:ruven/iipmooviewer.git
