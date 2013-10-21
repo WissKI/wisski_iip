@@ -26,7 +26,8 @@ function wisski_iip_window() {
   
   if(empty($imagepath)) {
     $node = node_load(arg(1));
-    $one_img_str = wisski_pathbuilder_getImages($node->title, 1);
+//    $one_img_str = wisski_pathbuilder_getImages($node->title, 1); # by Martin
+    $one_img_str = wisski_images_getImages($node->title, 1); # by Martin
     preg_match("/a href=.*?zoom\?path=(.*\.tif)/", $one_img_str, $imagepath);
     $imagepath = $imagepath[1];
   }

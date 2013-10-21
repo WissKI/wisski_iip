@@ -1,0 +1,6 @@
+; $Id$
+name = WissKI IIP-Viewer
+description = An implementation for the iipmooviewer
+core = 6.x
+package = "WissKI"
+dependencies[] = wisski_pathbuilder
