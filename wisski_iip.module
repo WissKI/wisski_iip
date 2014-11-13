@@ -34,7 +34,6 @@ function wisski_iip_window() {
     
   global $base_path;  
 
-  variable_set("wisski_iip_scale_parameter", "");
   $scale = variable_get("wisski_iip_scale_parameter", "scale: 20.0,");
 
   $script = '<script type="text/javascript">
