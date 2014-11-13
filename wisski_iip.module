@@ -33,6 +33,10 @@ function wisski_iip_window() {
   }
     
   global $base_path;  
+
+  variable_set("wisski_iip_scale_parameter", "");
+  $scale = variable_get("wisski_iip_scale_parameter", "scale: 20.0,");
+
   $script = '<script type="text/javascript">
     $(document).ready(function() {
     var server = "/fcgi-bin/iipsrv.fcgi";
@@ -43,7 +47,7 @@ function wisski_iip_window() {
       server: server,
       credit: credit,
       prefix: \'' . $base_path . drupal_get_path('module', 'wisski_iip') . '/iipmooviewer/images/\',
-      scale: 20.0,
+      ' . $scale . '
       showNavWindow: true,
       showNavButtons: true,
       winResize: true,
